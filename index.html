@@ -20,23 +20,37 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+    <script>
+        // Set theme on initial load
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900">
 
-    <div id="app-container" class="relative h-screen w-full max-w-md mx-auto bg-gray-50 flex flex-col">
+    <div id="app-container" class="relative h-screen w-full max-w-md mx-auto bg-gray-50 dark:bg-gray-900 flex flex-col">
         
         <div id="page-content" class="flex-grow overflow-y-auto no-scrollbar">
 
             <!-- ======================= DASHBOARD PAGE ======================= -->
             <div id="dashboard-page">
-                <header class="p-4 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
+                <header class="p-4 flex justify-between items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">สวัสดี,</h1>
-                        <p class="text-gray-500">จัดการเงินของคุณได้เลย</p>
+                        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">สวัสดี,</h1>
+                        <p class="text-gray-500 dark:text-gray-400">จัดการเงินของคุณได้เลย</p>
                     </div>
-                    <button class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
-                        <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=User" class="rounded-full" alt="User profile" />
-                    </button>
+                    <div class="flex items-center space-x-2">
+                         <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                            <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 016.465 3.636l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM5 11a1 1 0 100-2H4a1 1 0 100 2h1zM8 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.636 6.465a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707z"></path></svg>
+                        </button>
+                        <button class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-md">
+                            <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=User" class="rounded-full" alt="User profile" />
+                        </button>
+                    </div>
                 </header>
                 <main class="p-4 space-y-6 pb-28">
                     <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg relative">
@@ -46,28 +60,28 @@
                         <p id="balance-amount" class="text-4xl font-bold tracking-tight">฿ 0.00</p>
                     </div>
                     <div class="flex space-x-4">
-                        <div class="bg-white p-4 rounded-2xl shadow-md flex-1">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md flex-1">
                             <div class="flex items-center">
                                <div class="w-2 h-8 rounded-full bg-green-500 mr-3"></div>
                                <div>
-                                <p class="text-gray-500 font-medium">รายรับเดือนนี้</p>
-                                <p id="monthly-income" class="text-xl font-semibold text-green-600">฿ 0.00</p>
+                                <p class="text-gray-500 dark:text-gray-400 font-medium">รายรับเดือนนี้</p>
+                                <p id="monthly-income" class="text-xl font-semibold text-green-600 dark:text-green-500">฿ 0.00</p>
                                </div>
                             </div>
                         </div>
-                        <div class="bg-white p-4 rounded-2xl shadow-md flex-1">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md flex-1">
                             <div class="flex items-center">
                                <div class="w-2 h-8 rounded-full bg-red-500 mr-3"></div>
                                <div>
-                                <p class="text-gray-500 font-medium">รายจ่ายเดือนนี้</p>
-                                <p id="monthly-expense" class="text-xl font-semibold text-red-600">฿ 0.00</p>
+                                <p class="text-gray-500 dark:text-gray-400 font-medium">รายจ่ายเดือนนี้</p>
+                                <p id="monthly-expense" class="text-xl font-semibold text-red-600 dark:text-red-500">฿ 0.00</p>
                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md">
-                        <h3 class="font-semibold text-gray-700 mb-2">รายการล่าสุด</h3>
-                        <div id="transactions-list" class="divide-y divide-gray-100"></div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+                        <h3 class="font-semibold text-gray-700 dark:text-gray-200 mb-2">รายการล่าสุด</h3>
+                        <div id="transactions-list" class="divide-y divide-gray-100 dark:divide-gray-700"></div>
                     </div>
                 </main>
                 <div class="fixed bottom-20 right-6 z-20">
@@ -80,37 +94,37 @@
             <!-- ======================= ADD/EDIT TRANSACTION PAGE ======================= -->
             <div id="form-page" class="hidden">
                  <div class="flex flex-col h-full">
-                    <header class="p-4 flex items-center bg-gray-50 sticky top-0 z-10">
-                        <button class="btn-back p-2 rounded-full hover:bg-gray-200 mr-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
-                        <h1 id="form-title" class="text-xl font-bold text-gray-800">เพิ่มรายการใหม่</h1>
+                    <header class="p-4 flex items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10">
+                        <button class="btn-back p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 mr-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
+                        <h1 id="form-title" class="text-xl font-bold text-gray-800 dark:text-gray-100">เพิ่มรายการใหม่</h1>
                     </header>
                     <main class="flex-grow p-4 space-y-4 overflow-y-auto">
-                        <div class="grid grid-cols-2 gap-2 bg-gray-200 p-1 rounded-xl">
-                            <button id="btn-type-expense" class="py-2 rounded-lg font-semibold bg-white shadow">รายจ่าย</button>
-                            <button id="btn-type-income" class="py-2 rounded-lg font-semibold text-gray-600">รายรับ</button>
+                        <div class="grid grid-cols-2 gap-2 bg-gray-200 dark:bg-gray-700 p-1 rounded-xl">
+                            <button id="btn-type-expense" class="py-2 rounded-lg font-semibold bg-white dark:bg-gray-800 shadow text-gray-800 dark:text-gray-100">รายจ่าย</button>
+                            <button id="btn-type-income" class="py-2 rounded-lg font-semibold text-gray-600 dark:text-gray-400">รายรับ</button>
                         </div>
                         <div>
-                            <label class="text-sm font-medium text-gray-500">จำนวนเงิน</label>
-                            <input id="form-amount" type="number" placeholder="0.00" class="w-full text-2xl font-bold p-3 mt-1 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500" />
+                            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">จำนวนเงิน</label>
+                            <input id="form-amount" type="number" placeholder="0.00" class="w-full text-2xl font-bold p-3 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-gray-800 dark:text-gray-100" />
                         </div>
                         <div>
-                            <label class="text-sm font-medium text-gray-500">รายการ</label>
-                            <input id="form-description" type="text" placeholder="เช่น กาแฟ, ค่าเดินทาง" class="w-full bg-white border border-gray-200 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500" />
+                            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">รายการ</label>
+                            <input id="form-description" type="text" placeholder="เช่น กาแฟ, ค่าเดินทาง" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500 text-gray-800 dark:text-gray-100" />
                         </div>
                         <div>
-                            <label class="text-sm font-medium text-gray-500">ผู้รับเงิน / ผู้จ่ายเงิน</label>
-                            <select id="form-payee" class="w-full bg-white border border-gray-200 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500">
+                            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">ผู้รับเงิน / ผู้จ่ายเงิน</label>
+                            <select id="form-payee" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500 text-gray-800 dark:text-gray-100">
                                 <!-- Payee options will be populated by JavaScript -->
                             </select>
                         </div>
                         <div>
-                            <label class="text-sm font-medium text-gray-500">หมวดหมู่</label>
-                            <select id="form-category" class="w-full bg-white border border-gray-200 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500">
+                            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">หมวดหมู่</label>
+                            <select id="form-category" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mt-1 focus:outline-none focus:border-blue-500 text-gray-800 dark:text-gray-100">
                                 <option>อาหาร</option> <option>เดินทาง</option> <option>ช้อปปิ้ง</option> <option>เงินเดือน</option> <option>อื่นๆ</option>
                             </select>
                         </div>
                     </main>
-                    <footer class="p-4 bg-white border-t">
+                    <footer class="p-4 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
                         <button id="btn-save-transaction" class="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl hover:bg-blue-600">บันทึกรายการ</button>
                     </footer>
                 </div>
@@ -118,24 +132,24 @@
             
             <!-- ======================= MONTHLY DETAILS PAGE ======================= -->
             <div id="monthly-details-page" class="hidden">
-                <header class="p-4 flex items-center bg-gray-50 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800">รายละเอียดรายเดือน</h1></header>
+                <header class="p-4 flex items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">รายละเอียดรายเดือน</h1></header>
                 <main id="monthly-details-list" class="p-4 space-y-2"></main>
             </div>
 
             <!-- ======================= ALL DETAILS PAGE ======================= -->
             <div id="all-details-page" class="hidden">
-                <header class="p-4 flex items-center bg-gray-50 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800">รายละเอียดทั้งหมด</h1></header>
+                <header class="p-4 flex items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">รายละเอียดทั้งหมด</h1></header>
                 <main id="all-details-list" class="p-4 space-y-2"></main>
             </div>
 
             <!-- ======================= REPORTS PAGE ======================= -->
             <div id="reports-page" class="hidden">
-                 <header class="p-4 flex items-center bg-gray-50 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800">สรุปและรายงาน</h1></header>
+                 <header class="p-4 flex items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">สรุปและรายงาน</h1></header>
                  <main class="p-4 space-y-6">
-                    <div class="bg-white p-6 rounded-2xl shadow-md text-center">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-blue-400 mb-4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        <h2 class="text-lg font-bold mb-2">สร้างสลิปสรุป</h2>
-                        <p class="text-gray-500 mb-6">เลือกรายการธุรกรรมเพื่อสร้างเป็นไฟล์รูปภาพ (PNG)</p>
+                        <h2 class="text-lg font-bold mb-2 text-gray-800 dark:text-gray-100">สร้างสลิปสรุป</h2>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">เลือกรายการธุรกรรมเพื่อสร้างเป็นไฟล์รูปภาพ (PNG)</p>
                         <button id="btn-export" class="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl hover:bg-blue-600">เลือกรายการเพื่อส่งออก</button>
                     </div>
                     <div id="overall-summary-container"></div>
@@ -145,12 +159,12 @@
 
             <!-- ======================= SETTINGS PAGE ======================= -->
             <div id="settings-page" class="hidden">
-                <header class="p-4 flex items-center bg-gray-50 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800">ตั้งค่า</h1></header>
+                <header class="p-4 flex items-center bg-gray-50 dark:bg-gray-900 sticky top-0 z-10"><h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">ตั้งค่า</h1></header>
                 <main class="p-4 space-y-6">
-                    <div class="bg-white p-6 rounded-2xl shadow-md">
-                        <h3 class="font-semibold text-gray-700 mb-4">จัดการรายชื่อผู้รับ/จ่าย</h3>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+                        <h3 class="font-semibold text-gray-700 dark:text-gray-200 mb-4">จัดการรายชื่อผู้รับ/จ่าย</h3>
                         <div class="mb-4">
-                            <textarea id="new-payee-names" rows="5" placeholder="เพิ่มหลายรายชื่อ (คนละบรรทัด)" class="w-full bg-gray-100 border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-blue-500"></textarea>
+                            <textarea id="new-payee-names" rows="5" placeholder="เพิ่มหลายรายชื่อ (คนละบรรทัด)" class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-blue-500 text-gray-800 dark:text-gray-100"></textarea>
                             <button id="btn-add-payee" class="w-full mt-2 bg-blue-500 text-white font-semibold py-3 rounded-xl hover:bg-blue-600">เพิ่มรายชื่อ</button>
                         </div>
                         <div id="payee-list" class="space-y-2">
@@ -163,35 +177,35 @@
         </div>
 
         <!-- Bottom Navigation -->
-        <nav class="bg-white border-t sticky bottom-0">
+        <nav class="bg-white dark:bg-gray-800 border-t dark:border-gray-700 sticky bottom-0">
           <div class="flex justify-around p-2">
             <button data-page="dashboard-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg><span class="text-xs mt-1">ภาพรวม</span></button>
-            <button data-page="monthly-details-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="text-xs mt-1">รายเดือน</span></button>
-            <button data-page="all-details-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg><span class="text-xs mt-1">ทั้งหมด</span></button>
-            <button data-page="reports-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20v-2M18 20v-4"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M6 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M18 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg><span class="text-xs mt-1">รายงาน</span></button>
-            <button data-page="settings-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg><span class="text-xs mt-1">ตั้งค่า</span></button>
+            <button data-page="monthly-details-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500 dark:text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="text-xs mt-1">รายเดือน</span></button>
+            <button data-page="all-details-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500 dark:text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg><span class="text-xs mt-1">ทั้งหมด</span></button>
+            <button data-page="reports-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500 dark:text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20v-2M18 20v-4"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M6 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M18 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg><span class="text-xs mt-1">รายงาน</span></button>
+            <button data-page="settings-page" class="nav-btn flex flex-col items-center p-2 rounded-lg w-1/5 text-gray-500 dark:text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg><span class="text-xs mt-1">ตั้งค่า</span></button>
           </div>
         </nav>
     </div>
 
     <!-- Transaction Selection Modal -->
     <div id="selection-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-sm flex flex-col" style="height: 90vh;">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm flex flex-col" style="height: 90vh;">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="font-bold text-lg">เลือกรายการเพื่อส่งออก</h2>
-                <button id="btn-close-selection-modal" class="p-1 rounded-full hover:bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                <h2 class="font-bold text-lg text-gray-800 dark:text-gray-100">เลือกรายการเพื่อส่งออก</h2>
+                <button id="btn-close-selection-modal" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
-            <div id="selection-list" class="flex-grow overflow-y-auto -mx-6 px-6 divide-y"></div>
+            <div id="selection-list" class="flex-grow overflow-y-auto -mx-6 px-6 divide-y dark:divide-gray-700"></div>
             <button id="btn-generate-slip" class="w-full bg-blue-500 text-white font-bold py-3 rounded-xl mt-6 hover:bg-blue-600">สร้างสลิป</button>
         </div>
     </div>
 
     <!-- Export Modal -->
     <div id="export-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-lg">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="font-bold text-lg">ตัวอย่างสลิป</h2>
-                <button id="btn-close-export-modal" class="p-1 rounded-full hover:bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                <h2 class="font-bold text-lg text-gray-800 dark:text-gray-100">ตัวอย่างสลิป</h2>
+                <button id="btn-close-export-modal" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
             <div class="p-1">
                 <div id="report-slip" class="bg-white p-0 overflow-hidden rounded-lg"></div>
@@ -199,11 +213,25 @@
             <button id="btn-save-image" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl mt-6 hover:bg-green-600">บันทึกรูปภาพ</button>
         </div>
     </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+            <svg class="w-16 h-16 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mt-4 mb-2">ยืนยันการลบ</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            <div class="flex justify-center gap-4">
+                <button id="btn-cancel-delete" class="px-6 py-3 rounded-xl bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-100 font-semibold hover:bg-gray-300 dark:hover:bg-gray-500 w-full">ยกเลิก</button>
+                <button id="btn-confirm-delete" class="px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 w-full">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         const firebaseConfig = {
@@ -224,6 +252,7 @@
         let allTransactions = [];
         let allPayees = [];
         let editingTransactionId = null;
+        let deleteCallback = null; // To store the function to execute on delete confirmation
 
         const pages = document.querySelectorAll('#page-content > div');
         const navButtons = document.querySelectorAll('.nav-btn');
@@ -234,6 +263,7 @@
         const formPage = document.getElementById('form-page');
         const formTitle = document.getElementById('form-title');
         const formSaveButton = document.getElementById('btn-save-transaction');
+        const deleteConfirmModal = document.getElementById('delete-confirm-modal');
 
         const categoryIcons = {
             'อาหาร': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-600"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>`,
@@ -248,6 +278,7 @@
             navButtons.forEach(btn => {
                 btn.classList.toggle('text-blue-500', btn.dataset.page === pageId);
                 btn.classList.toggle('text-gray-500', btn.dataset.page !== pageId);
+                btn.classList.toggle('dark:text-gray-400', btn.dataset.page !== pageId);
             });
             if (pageId === 'reports-page') {
                 renderMonthlySummary();
@@ -264,19 +295,22 @@
         function renderDashboard() {
             transactionsListEl.innerHTML = '';
             if (allTransactions.length === 0) {
-                transactionsListEl.innerHTML = `<div class="text-center py-8 text-gray-500"><p>ยังไม่มีรายการธุรกรรม</p></div>`;
+                transactionsListEl.innerHTML = `<div class="text-center py-8 text-gray-500 dark:text-gray-400"><p>ยังไม่มีรายการธุรกรรม</p></div>`;
             } else {
-                const sorted = [...allTransactions].sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+                const sorted = [...allTransactions].sort((a, b) => {
+                    if (!a.createdAt || !b.createdAt) return 0;
+                    return b.createdAt.seconds - a.createdAt.seconds;
+                });
                 sorted.slice(0, 5).forEach(tx => {
                     const isIncome = tx.type === 'income';
                     const item = document.createElement('div');
                     item.className = 'flex items-start py-4 group';
                     item.innerHTML = `
                         <div class="flex-grow flex items-start">
-                             <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">${categoryIcons[tx.category] || categoryIcons['อื่นๆ']}</div>
+                             <div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-4 flex-shrink-0">${categoryIcons[tx.category] || categoryIcons['อื่นๆ']}</div>
                              <div>
-                                <p class="font-semibold text-gray-800">${tx.description}</p>
-                                <p class="text-sm text-gray-500">${tx.category}</p>
+                                 <p class="font-semibold text-gray-800 dark:text-gray-100">${tx.description}</p>
+                                 <p class="text-sm text-gray-500 dark:text-gray-400">${tx.category}</p>
                              </div>
                         </div>
                         <div class="text-right mr-2">
@@ -317,23 +351,26 @@
                 ? allTransactions.filter(tx => tx.createdAt && new Date(tx.createdAt.toDate()).getMonth() === now.getMonth())
                 : allTransactions;
 
-            const sorted = [...transactionsToRender].sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+            const sorted = [...transactionsToRender].sort((a, b) => {
+                if (!a.createdAt || !b.createdAt) return 0;
+                return b.createdAt.seconds - a.createdAt.seconds;
+            });
 
             if (sorted.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-gray-500"><p>ยังไม่มีรายการธุรกรรม</p></div>`;
+                container.innerHTML = `<div class="text-center py-8 text-gray-500 dark:text-gray-400"><p>ยังไม่มีรายการธุรกรรม</p></div>`;
                 return;
             }
             
             sorted.forEach(tx => {
                 const isIncome = tx.type === 'income';
                 const item = document.createElement('div');
-                item.className = 'flex items-start py-4 group border-b';
+                item.className = 'flex items-start py-4 group border-b dark:border-gray-700';
                 item.innerHTML = `
-                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">${categoryIcons[tx.category] || categoryIcons['อื่นๆ']}</div>
+                    <div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-4 flex-shrink-0">${categoryIcons[tx.category] || categoryIcons['อื่นๆ']}</div>
                     <div class="flex-grow">
-                        <p class="font-semibold text-gray-800">${tx.description}</p>
-                        <p class="text-sm text-gray-500">${tx.payee}</p>
-                        <p class="text-xs text-gray-400">${new Date(tx.createdAt.toDate()).toLocaleString('th-TH')}</p>
+                        <p class="font-semibold text-gray-800 dark:text-gray-100">${tx.description}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">${tx.payee}</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500">${tx.createdAt ? new Date(tx.createdAt.toDate()).toLocaleString('th-TH') : 'Pending...'}</p>
                     </div>
                     <div class="text-right mr-2">
                         <p class="font-semibold ${isIncome ? 'text-green-500' : 'text-red-500'}">
@@ -365,13 +402,13 @@
             const net = monthlyIncome - monthlyExpense;
 
             container.innerHTML = `
-                <div class="bg-white p-6 rounded-2xl shadow-md" id="monthly-summary-card">
-                    <h3 class="font-bold text-lg text-gray-800 text-center mb-4">สรุปประจำเดือน ${currentMonthName} ${currentYear}</h3>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md" id="monthly-summary-card">
+                    <h3 class="font-bold text-lg text-gray-800 dark:text-gray-100 text-center mb-4">สรุปประจำเดือน ${currentMonthName} ${currentYear}</h3>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center"><span class="text-gray-600">รายรับทั้งหมด</span><span class="font-semibold text-green-600">+ ${monthlyIncome.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
-                        <div class="flex justify-between items-center"><span class="text-gray-600">รายจ่ายทั้งหมด</span><span class="font-semibold text-red-600">- ${monthlyExpense.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
-                        <hr class="my-2 border-dashed"/>
-                        <div class="flex justify-between items-center text-lg"><span class="font-bold text-gray-800">คงเหลือสุทธิ</span><span class="font-bold ${net >= 0 ? 'text-blue-600' : 'text-red-600'}">${net.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-300">รายรับทั้งหมด</span><span class="font-semibold text-green-600 dark:text-green-500">+ ${monthlyIncome.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-300">รายจ่ายทั้งหมด</span><span class="font-semibold text-red-600 dark:text-red-500">- ${monthlyExpense.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <hr class="my-2 border-dashed dark:border-gray-600"/>
+                        <div class="flex justify-between items-center text-lg"><span class="font-bold text-gray-800 dark:text-gray-100">คงเหลือสุทธิ</span><span class="font-bold ${net >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-red-600 dark:text-red-500'}">${net.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
                     </div>
                     <button id="btn-export-monthly" class="w-full mt-6 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600">ส่งออกเป็น JPG</button>
                 </div>`;
@@ -385,13 +422,13 @@
             const balance = totalIncome - totalExpense;
 
             container.innerHTML = `
-                <div class="bg-white p-6 rounded-2xl shadow-md" id="overall-summary-card">
-                    <h3 class="font-bold text-lg text-gray-800 text-center mb-4">สรุปภาพรวมทั้งหมด</h3>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md" id="overall-summary-card">
+                    <h3 class="font-bold text-lg text-gray-800 dark:text-gray-100 text-center mb-4">สรุปภาพรวมทั้งหมด</h3>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center"><span class="text-gray-600">รายรับทั้งหมด</span><span class="font-semibold text-green-600">+ ${totalIncome.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
-                        <div class="flex justify-between items-center"><span class="text-gray-600">รายจ่ายทั้งหมด</span><span class="font-semibold text-red-600">- ${totalExpense.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
-                        <hr class="my-2 border-dashed"/>
-                        <div class="flex justify-between items-center text-lg"><span class="font-bold text-gray-800">ยอดคงเหลือทั้งหมด</span><span class="font-bold ${balance >= 0 ? 'text-blue-600' : 'text-red-600'}">${balance.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-300">รายรับทั้งหมด</span><span class="font-semibold text-green-600 dark:text-green-500">+ ${totalIncome.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-300">รายจ่ายทั้งหมด</span><span class="font-semibold text-red-600 dark:text-red-500">- ${totalExpense.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
+                        <hr class="my-2 border-dashed dark:border-gray-600"/>
+                        <div class="flex justify-between items-center text-lg"><span class="font-bold text-gray-800 dark:text-gray-100">ยอดคงเหลือทั้งหมด</span><span class="font-bold ${balance >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-red-600 dark:text-red-500'}">${balance.toLocaleString('en-US', {minimumFractionDigits: 2})} บาท</span></div>
                     </div>
                     <button id="btn-export-overall" class="w-full mt-6 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600">ส่งออกเป็น JPG</button>
                 </div>`;
@@ -399,7 +436,7 @@
         }
         
         async function addTransaction(data) {
-            await addDoc(collection(db, `artifacts/${appId}/public/data/transactions`), { ...data, createdAt: new Date() });
+            await addDoc(collection(db, `artifacts/${appId}/public/data/transactions`), { ...data, createdAt: serverTimestamp() });
         }
         async function updateTransaction(id, data) {
             const docRef = doc(db, `artifacts/${appId}/public/data/transactions`, id);
@@ -434,8 +471,8 @@
 
             sortedPayees.forEach(payee => {
                 const itemHtml = `
-                    <div class="flex justify-between items-center bg-gray-100 p-2 rounded-lg">
-                        <span>${payee.name}</span>
+                    <div class="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-2 rounded-lg">
+                        <span class="text-gray-800 dark:text-gray-100">${payee.name}</span>
                         <button data-id="${payee.id}" class="btn-delete-payee text-gray-400 hover:text-red-500 p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                         </button>
@@ -470,13 +507,70 @@
             const btnIncome = document.getElementById('btn-type-income');
             const isExpense = tx.type === 'expense';
             btnExpense.classList.toggle('bg-white', isExpense);
+            btnExpense.classList.toggle('dark:bg-gray-800', isExpense);
             btnExpense.classList.toggle('shadow', isExpense);
             btnExpense.classList.toggle('text-gray-600', !isExpense);
+            btnExpense.classList.toggle('dark:text-gray-400', !isExpense);
             btnIncome.classList.toggle('bg-white', !isExpense);
+            btnIncome.classList.toggle('dark:bg-gray-800', !isExpense);
             btnIncome.classList.toggle('shadow', !isExpense);
             btnIncome.classList.toggle('text-gray-600', isExpense);
+            btnIncome.classList.toggle('dark:text-gray-400', isExpense);
             showPage('form-page');
         }
+        
+        // --- Delete Confirmation Logic ---
+        function showDeleteConfirmation(onConfirm) {
+            deleteCallback = onConfirm;
+            deleteConfirmModal.classList.remove('hidden');
+        }
+
+        document.getElementById('btn-cancel-delete').addEventListener('click', () => {
+            deleteConfirmModal.classList.add('hidden');
+            deleteCallback = null;
+        });
+
+        document.getElementById('btn-confirm-delete').addEventListener('click', () => {
+            if (typeof deleteCallback === 'function') {
+                deleteCallback();
+            }
+            deleteConfirmModal.classList.add('hidden');
+            deleteCallback = null;
+        });
+        
+        // --- Theme Toggle Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        const updateThemeIcons = () => {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleDarkIcon.classList.add('hidden');
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+            }
+        };
+
+        // Set initial icon state
+        updateThemeIcons();
+
+        themeToggleBtn.addEventListener('click', () => {
+            // Toggle the class on the <html> element
+            document.documentElement.classList.toggle('dark');
+            
+            // Update localStorage
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                localStorage.setItem('color-theme', 'light');
+            }
+            
+            // Update the icon visibility
+            updateThemeIcons();
+        });
+
 
         document.addEventListener('DOMContentLoaded', async () => {
             await signInAnonymously(auth);
@@ -507,17 +601,17 @@
             const btnIncome = document.getElementById('btn-type-income');
             btnExpense.addEventListener('click', () => {
                 type = 'expense';
-                btnExpense.classList.add('bg-white', 'shadow');
-                btnExpense.classList.remove('text-gray-600');
-                btnIncome.classList.remove('bg-white', 'shadow');
-                btnIncome.classList.add('text-gray-600');
+                btnExpense.classList.add('bg-white', 'dark:bg-gray-800', 'shadow');
+                btnExpense.classList.remove('text-gray-600', 'dark:text-gray-400');
+                btnIncome.classList.remove('bg-white', 'dark:bg-gray-800', 'shadow');
+                btnIncome.classList.add('text-gray-600', 'dark:text-gray-400');
             });
             btnIncome.addEventListener('click', () => {
                 type = 'income';
-                btnIncome.classList.add('bg-white', 'shadow');
-                btnIncome.classList.remove('text-gray-600');
-                btnExpense.classList.remove('bg-white', 'shadow');
-                btnExpense.classList.add('text-gray-600');
+                btnIncome.classList.add('bg-white', 'dark:bg-gray-800', 'shadow');
+                btnIncome.classList.remove('text-gray-600', 'dark:text-gray-400');
+                btnExpense.classList.remove('bg-white', 'dark:bg-gray-800', 'shadow');
+                btnExpense.classList.add('text-gray-600', 'dark:text-gray-400');
             });
             
             formSaveButton.addEventListener('click', () => {
@@ -535,7 +629,11 @@
             
             document.getElementById('page-content').addEventListener('click', (e) => {
                 const deleteBtn = e.target.closest('.btn-delete');
-                if (deleteBtn) { deleteTransaction(deleteBtn.dataset.id); return; }
+                if (deleteBtn) {
+                    const id = deleteBtn.dataset.id;
+                    showDeleteConfirmation(() => deleteTransaction(id));
+                    return;
+                }
                 const editBtn = e.target.closest('.btn-edit');
                 if (editBtn) { prepareFormForEdit(editBtn.dataset.id); }
             });
@@ -552,7 +650,8 @@
             document.getElementById('payee-list').addEventListener('click', (e) => {
                 const deleteBtn = e.target.closest('.btn-delete-payee');
                 if (deleteBtn) {
-                    deletePayee(deleteBtn.dataset.id);
+                    const id = deleteBtn.dataset.id;
+                    showDeleteConfirmation(() => deletePayee(id));
                 }
             });
 
@@ -562,8 +661,8 @@
             document.getElementById('btn-export').addEventListener('click', () => {
                 const listEl = document.getElementById('selection-list');
                 listEl.innerHTML = '';
-                [...allTransactions].sort((a,b) => b.createdAt.seconds - a.createdAt.seconds).forEach(tx => {
-                    listEl.insertAdjacentHTML('beforeend', `<label class="flex items-center p-4 cursor-pointer hover:bg-gray-50"><input type="checkbox" data-id="${tx.id}" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><div class="ml-4 flex-grow"><p class="font-semibold text-gray-800">${tx.description}</p><p class="text-sm text-gray-500">${new Date(tx.createdAt.toDate()).toLocaleDateString('th-TH')}</p></div><span class="font-semibold ${tx.type === 'income' ? 'text-green-500' : 'text-red-500'}">${tx.type === 'income' ? '+' : '-'}${tx.amount.toLocaleString('en-US', {minimumFractionDigits: 2})}</span></label>`);
+                [...allTransactions].filter(tx => tx.createdAt).sort((a,b) => b.createdAt.seconds - a.createdAt.seconds).forEach(tx => {
+                    listEl.insertAdjacentHTML('beforeend', `<label class="flex items-center p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"><input type="checkbox" data-id="${tx.id}" class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-gray-100 dark:bg-gray-600"><div class="ml-4 flex-grow"><p class="font-semibold text-gray-800 dark:text-gray-100">${tx.description}</p><p class="text-sm text-gray-500 dark:text-gray-400">${new Date(tx.createdAt.toDate()).toLocaleDateString('th-TH')}</p></div><span class="font-semibold ${tx.type === 'income' ? 'text-green-500' : 'text-red-500'}">${tx.type === 'income' ? '+' : '-'}${tx.amount.toLocaleString('en-US', {minimumFractionDigits: 2})}</span></label>`);
                 });
                 selectionModal.classList.remove('hidden');
             });
@@ -578,8 +677,6 @@
                     renderSlip(selectedTxs);
                     selectionModal.classList.add('hidden');
                     exportModal.classList.remove('hidden');
-                } else {
-                    alert('กรุณาเลือกอย่างน้อย 1 รายการ');
                 }
             });
             
@@ -598,17 +695,17 @@
             const formattedTime = transactionDate.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
             
             const balanceBefore = allTransactions
-                .filter(tx => tx.createdAt.seconds < oldestSelected.createdAt.seconds)
+                .filter(tx => tx.createdAt && tx.createdAt.seconds < oldestSelected.createdAt.seconds)
                 .reduce((acc, tx) => (tx.type === 'income' ? acc + tx.amount : acc - tx.amount), 0);
 
             const selectedSum = selectedTransactions.reduce((acc, tx) => (tx.type === 'income' ? acc + tx.amount : acc - tx.amount), 0);
             const balanceAfter = balanceBefore + selectedSum;
 
-            const transactionRows = selectedTransactions.map(tx => `<div class="grid grid-cols-5 gap-2 py-2 items-start font-medium"><span class="col-span-2 break-words text-gray-800 text-base">${tx.description}</span><span class="col-span-2 text-center text-gray-600 break-words">${tx.payee}</span><span class="col-span-1 text-right font-semibold text-base ${tx.type === 'income' ? 'text-green-600' : 'text-red-600'}">${tx.type === 'income' ? '+' : '-'}${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span></div>`).join('');
+            const transactionRows = selectedTransactions.map(tx => `<div class="grid grid-cols-6 gap-2 py-2 items-start font-medium"><span class="col-span-2 break-words text-gray-800 text-base">${tx.description}</span><span class="col-span-2 text-center text-gray-600 break-words">${tx.payee}</span><span class="col-span-2 text-right font-semibold text-base ${tx.type === 'income' ? 'text-green-600' : 'text-red-600'}">${tx.type === 'income' ? '+' : '-'}${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span></div>`).join('');
             
             const successIconSVG = `<svg class="w-16 h-16 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
 
-            slipContainer.innerHTML = `<div class="bg-white rounded-lg shadow-md overflow-hidden"><div class="p-4 bg-gradient-to-br from-cyan-400 to-blue-500 text-white text-center"><h2 class="font-bold text-2xl">BANKOKMUANG SCHOOL</h2></div><div class="p-5"><div class="text-center mb-4 pb-4"><div class="flex justify-center items-center w-20 h-20 rounded-full bg-green-100 mb-3 mx-auto">${successIconSVG}</div><h3 class="font-bold text-xl text-green-600">ทำรายการสำเร็จ</h3><p class="text-base text-gray-600 font-semibold">${formattedDate} - ${formattedTime} น.</p></div><div class="space-y-2 text-base border-t border-b border-dashed py-4"><div class="text-center mb-4"><p class="text-sm text-gray-500">ยอดยกมา</p><p class="font-semibold text-lg text-gray-800">${balanceBefore.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</p></div><div class="grid grid-cols-5 gap-2 font-bold text-gray-600 uppercase tracking-wider pb-2 text-sm"><span class="col-span-2">รายการ</span><span class="col-span-2 text-center">ผู้รับ/จ่าย</span><span class="col-span-1 text-right">จำนวน</span></div>${transactionRows}</div><div class="flex justify-between items-center font-bold text-lg pt-4"><span class="text-gray-800">ยอดคงเหลือทั้งหมด</span><span class="text-blue-600">${balanceAfter.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</span></div></div></div>`;
+            slipContainer.innerHTML = `<div class="bg-white rounded-lg shadow-md overflow-hidden"><div class="p-4 bg-gradient-to-br from-cyan-400 to-blue-500 text-white text-center"><h2 class="font-bold text-2xl">BANKOKMUANG SCHOOL</h2></div><div class="p-5"><div class="text-center mb-4 pb-4"><div class="flex justify-center items-center w-20 h-20 rounded-full bg-green-100 mb-3 mx-auto">${successIconSVG}</div><h3 class="font-bold text-xl text-green-600">ทำรายการสำเร็จ</h3><p class="text-base text-gray-600 font-semibold">${formattedDate} - ${formattedTime} น.</p></div><div class="space-y-2 text-base border-t border-b border-dashed py-4"><div class="text-center mb-4"><p class="text-sm text-gray-500">ยอดยกมา</p><p class="font-semibold text-lg text-gray-800">${balanceBefore.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</p></div><div class="grid grid-cols-6 gap-2 font-bold text-gray-600 uppercase tracking-wider pb-2 text-sm"><span class="col-span-2">รายการ</span><span class="col-span-2 text-center">ผู้รับ/จ่าย</span><span class="col-span-2 text-right">จำนวน</span></div>${transactionRows}</div><div class="flex justify-between items-center font-bold text-lg pt-4"><span class="text-gray-800">ยอดคงเหลือทั้งหมด</span><span class="text-blue-600">${balanceAfter.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</span></div></div></div>`;
         }
         
         function handleExport() {
@@ -626,7 +723,7 @@
         function handleMonthlyExport() {
             const element = document.getElementById('monthly-summary-card');
              if (element && window.html2canvas) {
-                html2canvas(element, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                html2canvas(element, { scale: 3, useCORS: true, backgroundColor: document.documentElement.classList.contains('dark') ? '#1f2937' : '#ffffff' }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = `monthly-summary-${Date.now()}.jpg`;
                     link.href = canvas.toDataURL('image/jpeg', 0.9);
@@ -638,7 +735,7 @@
         function handleOverallExport() {
             const element = document.getElementById('overall-summary-card');
              if (element && window.html2canvas) {
-                html2canvas(element, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                html2canvas(element, { scale: 3, useCORS: true, backgroundColor: document.documentElement.classList.contains('dark') ? '#1f2937' : '#ffffff' }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = `overall-summary-${Date.now()}.jpg`;
                     link.href = canvas.toDataURL('image/jpeg', 0.9);
