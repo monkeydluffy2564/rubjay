@@ -622,6 +622,7 @@
                         updateTransaction(editingTransactionId, data);
                     } else {
                         addTransaction(data);
+						saveToGoogleSheet(data); // <--- เพิ่มบรรทัดนี้
                     }
                     incrementPayeeCount(data.payee);
                     showPage('dashboard-page');
@@ -746,6 +747,32 @@
         console.error('เกิดข้อผิดพลาดในการแชร์:', error);
         alert('เกิดข้อผิดพลาดในการสร้างไฟล์สำหรับแชร์');
     }
+}
+
+function saveToGoogleSheet(data) {
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw1pVMSsqq73seNvyNgJK8fTolHTRJtsfiJc-sNQnWv4bXtJUidha5FIin0kYOSPgl2/exec'; // ◀️ วาง URL ที่คัดลอกมาตรงนี้!
+
+    // เพิ่มข้อมูล Timestamp เพื่อให้รู้ว่าบันทึกเมื่อไหร่
+    const dataWithTimestamp = {
+        ...data,
+        timestamp: new Date().toISOString() 
+    };
+
+    fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors', // สำคัญมากสำหรับ Apps Script
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+         console.log('Successfully sent to Google Sheet.');
+    })
+    .catch(error => {
+        console.error('Error sending to Google Sheet:', error);
+    });
 }
         
         function handleExport() {
