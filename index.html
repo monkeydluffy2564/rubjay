@@ -211,6 +211,7 @@
                 <div id="report-slip" class="bg-white p-0 overflow-hidden rounded-lg"></div>
             </div>
             <button id="btn-save-image" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl mt-6 hover:bg-green-600">บันทึกรูปภาพ</button>
+			<button id="btn-share-image" class="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-600">แชร์สลิป</button>
         </div>
     </div>
     
@@ -681,6 +682,7 @@
             });
             
             document.getElementById('btn-save-image').addEventListener('click', handleExport);
+			document.getElementById('btn-share-image').addEventListener('click', handleShare);
         });
         
         function renderSlip(selectedTransactions) {
@@ -705,8 +707,46 @@
             
             const successIconSVG = `<svg class="w-16 h-16 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
 
-            slipContainer.innerHTML = `<div class="bg-white rounded-lg shadow-md overflow-hidden"><div class="p-4 bg-gradient-to-br from-cyan-400 to-blue-500 text-white flex items-center justify-center"><h2 class="font-bold text-2xl">BANKOKMUANG SCHOOL</h2></div><div class="p-5"><div class="text-center mb-4 pb-4"><div class="flex justify-center items-center w-20 h-20 rounded-full bg-green-100 mb-3 mx-auto">${successIconSVG}</div><h3 class="font-bold text-xl text-green-600">ทำรายการสำเร็จ</h3><p class="text-base text-gray-600 font-semibold">${formattedDate} - ${formattedTime} น.</p></div><div class="space-y-2 text-base border-t border-b border-dashed py-4"><div class="text-center mb-4"><p class="text-sm text-gray-500">ยอดยกมา</p><p class="font-semibold text-lg text-gray-800">${balanceBefore.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</p></div><div class="grid grid-cols-6 gap-2 font-bold text-gray-600 uppercase tracking-wider pb-2 text-sm"><span class="col-span-2">รายการ</span><span class="col-span-2 text-center">ผู้รับ/จ่าย</span><span class="col-span-2 text-right">จำนวน</span></div>${transactionRows}</div><div class="flex justify-between items-center font-bold text-lg pt-4"><span class="text-gray-800">ยอดคงเหลือทั้งหมด</span><span class="text-blue-600">${balanceAfter.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</span></div></div></div>`;
+            slipContainer.innerHTML = `<div class="bg-white rounded-lg shadow-md overflow-hidden"><div class="p-4 bg-gradient-to-br from-cyan-400 to-blue-500 text-white text-center flex items-center justify-center"><h2 class="font-bold text-2xl relative bottom-3">BANKOKMUANG SCHOOL</h2></div><div class="p-5"><div class="text-center mb-4 pb-4"><div class="flex justify-center items-center w-20 h-20 rounded-full bg-green-100 mb-3 mx-auto">${successIconSVG}</div><h3 class="font-bold text-xl text-green-600">ทำรายการสำเร็จ</h3><p class="text-base text-gray-600 font-semibold">${formattedDate} - ${formattedTime} น.</p></div><div class="space-y-2 text-base border-t border-b border-dashed py-4"><div class="text-center mb-4"><p class="text-sm text-gray-500">ยอดยกมา</p><p class="font-semibold text-lg text-gray-800">${balanceBefore.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</p></div><div class="grid grid-cols-6 gap-2 font-bold text-gray-600 uppercase tracking-wider pb-2 text-sm"><span class="col-span-2">รายการ</span><span class="col-span-2 text-center">ผู้รับ/จ่าย</span><span class="col-span-2 text-right">จำนวน</span></div>${transactionRows}</div><div class="flex justify-between items-center font-bold text-lg pt-4"><span class="text-gray-800">ยอดคงเหลือทั้งหมด</span><span class="text-blue-600">${balanceAfter.toLocaleString('en-US', { minimumFractionDigits: 2 })} บาท</span></div></div></div>`;
         }
+		
+		async function handleShare() {
+    const element = document.getElementById('report-slip');
+    if (!element || !window.html2canvas) return;
+
+    // ตรวจสอบว่าเบราว์เซอร์รองรับ Web Share API หรือไม่
+    if (!navigator.share) {
+        alert('เบราว์เซอร์ของคุณไม่รองรับฟังก์ชันแชร์');
+        return;
+    }
+
+    try {
+        const canvas = await html2canvas(element, { scale: 3, useCORS: true, backgroundColor: null });
+        
+        // แปลง canvas เป็นไฟล์รูปภาพ (Blob)
+        canvas.toBlob(async (blob) => {
+            if (!blob) return;
+            
+            const file = new File([blob], `report-${Date.now()}.png`, { type: 'image/png' });
+            const shareData = {
+                title: 'สลิปรายการ',
+                text: 'นี่คือสลิปสรุปรายการของคุณ',
+                files: [file],
+            };
+
+            // ตรวจสอบอีกครั้งว่าสามารถแชร์ข้อมูลประเภทไฟล์ได้หรือไม่
+            if (navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+            } else {
+                alert('ไม่สามารถแชร์ไฟล์รูปภาพได้');
+            }
+        }, 'image/png');
+
+    } catch (error) {
+        console.error('เกิดข้อผิดพลาดในการแชร์:', error);
+        alert('เกิดข้อผิดพลาดในการสร้างไฟล์สำหรับแชร์');
+    }
+}
         
         function handleExport() {
             const element = document.getElementById('report-slip');
